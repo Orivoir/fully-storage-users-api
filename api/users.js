@@ -47,6 +47,26 @@ class UsersAPI {
         this.normalizeListKeys( 'uniqKeys' );
     }
 
+    isAlreadyExists( keyName, value ) {
+
+        const docsname = this.getDocsList( global._this.collectionName );
+
+        let isExists = false;
+
+        docsname.forEach( docname => {
+
+            const doc = this.getDocByDocname( docname );
+
+            if( doc[ keyName ] === value ) {
+
+                isExists = true;
+            }
+
+        } );
+
+        return isExists;
+    }
+
     addUser( user ) {
 
         if( typeof user !== "object" ) {
@@ -69,6 +89,36 @@ class UsersAPI {
 
         } );
 
+        let isUniqKeysError = false;
+        const uniqKeysError = [];
+
+        if( global._this.uniqKeys.length ) {
+
+            global._this.uniqKeys.forEach( uniqKey => {
+
+                const value = user[ uniqKey ];
+
+                if( !!value ) {
+
+                    if( global._this.isAlreadyExists( uniqKey, value ) ) {
+
+                        isUniqKeysError = true;
+                        uniqKeysError.push( uniqKey );
+                    }
+                }
+
+            } );
+        }
+
+        if( isUniqKeysError ) {
+
+            return {
+                success: false,
+                error: 'violation constraint unique key',
+                uniqKeysError
+            };
+        }
+
         if( global._this.passwordHash ) {
 
             if( typeof user.password !== 'string' ) {
@@ -83,22 +133,27 @@ class UsersAPI {
             }
         }
 
-        return this.addDoc(
+        this.addDoc(
             global._this.collectionName,
             user
         );
+
+        return {
+            success: true,
+            user
+        };
     }
 
     getUserById( userId ) {
 
-        const user = global._this.getUserBy( {
+        const user = global._this.getUsersBy( {
             id: userId
         } );
 
         return user[0] || null;
     }
 
-    getUserBy( matcher ) {
+    getUsersBy( matcher ) {
 
         const docsname = this.getDocsList( global._this.collectionName );
 
@@ -173,7 +228,7 @@ class UsersAPI {
             if( doc[ login.keyName ] === login.value ) { // login found
 
                 isLoginExists = true;
-                isAuthenticationSuccess = bcrypt.compareSync( plainPassword, doc.password );
+                isAuthenticationSuccess = !!global._this.passwordHash ? bcrypt.compareSync( plainPassword, doc.password ): plainPassword === doc.password ;
 
                 if( !!global._this.constraintsAuthentication ) {
 
@@ -212,7 +267,6 @@ class UsersAPI {
         } );
 
     }
-
 
     addUsersCollection() {
 
@@ -295,6 +349,7 @@ class UsersAPI {
             } else {
                 response.success = false;
                 response.error = `constrainst: "${constraintsAuthentication.join(', ')}" have blocked authentication`
+                response.constraintsAuthentication = constraintsAuthentication;
             }
         }
 
