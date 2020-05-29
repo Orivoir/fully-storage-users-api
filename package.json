@@ -1,0 +1,20 @@
+{
+  "name": "fully-storage-users-api",
+  "version": "1.0.0",
+  "description": "Implement User API for fully-storage package",
+  "main": "index.js",
+  "scripts": {},
+  "keywords": [
+    "fully-storage",
+    "api",
+    "implement",
+    "apis",
+    "user"
+  ],
+  "author": "S.GABORIEAU <sam.gabor@hotmail.com> (https://github.com/orivoir/)",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "md5": "^2.2.1"
+  }
+}
