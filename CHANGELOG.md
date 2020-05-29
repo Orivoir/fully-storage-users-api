@@ -9,3 +9,7 @@
 # 1.0.2
 
 - Fix naming methods implement inside storage from: `STORAGE_METHODS_NAME_IMPLEMENTS`
+
+# 1.0.25
+
+- Fix usage `this` and `global._this` from method implemented inside of storage: `getUserBy`

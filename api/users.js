@@ -155,13 +155,13 @@ class UsersAPI {
 
     getUsersBy( matcher ) {
 
-        const docsname = this.getDocsList( global._this.collectionName );
+        const docsname = global._this.storage.getDocsList( global._this.collectionName );
 
         const users = [];
 
         docsname.forEach( docname => {
 
-            const doc = this.getDocByDocname( docname );
+            const doc = global._this.storage.getDocByDocname( docname );
 
             let isMatches = true;
 
