@@ -15,7 +15,7 @@ class UsersAPI {
         'addUser',
         'authentication',
         'getUserById',
-        'getUserBy'
+        'getUsersBy'
     ];
 
     static STORAGE_SHOULD_HAVE_FUNC = [
