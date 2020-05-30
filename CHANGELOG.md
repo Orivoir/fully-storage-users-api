@@ -1,3 +1,8 @@
+# 1.0.2
+
+- Fix usage `this` and `global._this` from: `isAlreadyExists` method to: **./api/users.js**
+- Fix from `authentication` method affect to `password` should be based on data type because empty to: **./api/users.js**
+
 # 1.0.1
 
 - Fix authentication with not **password hash** usage.

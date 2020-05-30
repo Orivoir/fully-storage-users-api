@@ -1,6 +1,6 @@
 {
   "name": "fully-storage-users-api",
-  "version": "1.0.25",
+  "version": "1.0.2",
   "description": "Implement User API for fully-storage package",
   "main": "index.js",
   "scripts": {},

@@ -49,13 +49,13 @@ class UsersAPI {
 
     isAlreadyExists( keyName, value ) {
 
-        const docsname = this.getDocsList( global._this.collectionName );
+        const docsname = global._this.getDocsList( global._this.collectionName );
 
         let isExists = false;
 
         docsname.forEach( docname => {
 
-            const doc = this.getDocByDocname( docname );
+            const doc = global._this.getDocByDocname( docname );
 
             if( doc[ keyName ] === value ) {
 
@@ -191,7 +191,7 @@ class UsersAPI {
             throw new RangeError("UsersAPI error: method authentication arg1: should be a object: { plainPassword: string, login: string }");
         }
 
-        const plainPassword = credentials.password || credentials.plainPassword;
+        const plainPassword = typeof credentials.password === "string" ? credentials.password: credentials.plainPassword;
 
         let login = credentials.login;
 
